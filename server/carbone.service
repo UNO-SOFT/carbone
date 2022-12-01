@@ -1,0 +1,17 @@
+[Unit]
+Description=Podman container-carbone.service
+Wants=network.target
+After=network-online.target
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+Restart=on-failure
+ExecStartPre=/bin/sh -c "podman container exists carbone || podman create --name carbone --net host -p 3000:3000 tgulacsi/carbone"
+ExecStart=/usr/bin/podman start carbone
+ExecStop=/usr/bin/podman stop -t 10 carbone
+ExecStopPost=/usr/bin/podman stop -t 10 carbone
+KillMode=none
+Type=forking
+
+[Install]
+WantedBy=multi-user.target default.target

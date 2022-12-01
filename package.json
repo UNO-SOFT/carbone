@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "busboy": "^1.4.0",
+    "carbone": "^3.2.3"
+  }
+}
