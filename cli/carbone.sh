@@ -10,8 +10,8 @@ shift 2
 dir="$(mktemp -d)"
 echo "# dir=$dir" >&2
 trap 'rm -rf "$dir"' EXIT
-cp -a --reflink=auto "$template" "$dir/"
+cp -a -Z --reflink=auto "$template" "$dir/template"
 temp="$(basename "$out")"
 set -x
-sudo podman run --rm -v "${dir}:/data:rw" tgulacsi/carbone "$template" "$temp" "$*"
+sudo podman run --rm -v "${dir}:/data:rw,Z" tgulacsi/carbone template "$temp" "$*"
 mv "$dir/$temp" "$out"
